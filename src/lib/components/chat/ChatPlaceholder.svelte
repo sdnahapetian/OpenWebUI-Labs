@@ -134,8 +134,14 @@
 				className="grid grid-cols-2"
 				suggestionPrompts={atSelectedModel?.info?.meta?.suggestion_prompts ??
 					models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
-					$config?.default_prompt_suggestions ??
-					[]}
+					$config?.default_prompt_suggestions ?? [
+						{ title: ['Why do fireflies glow?', 'in the dark'], content: 'Why do fireflies glow in the dark? Explain it simply.' },
+						{ title: ['How do spiders make webs?', 'step by step'], content: 'How do spiders make their webs? Explain it step by step.' },
+						{ title: ['Do bugs sleep?', 'like we do?'], content: 'Do bugs sleep? How is it different from how people sleep?' },
+						{ title: ["What's the strongest bug?", 'pound for pound'], content: "What is the strongest bug in the world compared to its size?" },
+						{ title: ['Why do bees make honey?', 'and how?'], content: 'Why do bees make honey and how do they do it?' },
+						{ title: ['How do ants talk?', 'to each other'], content: 'How do ants talk to each other? Do they use sounds or smells?' }
+					]}
 				{onSelect}
 			/>
 		</div>
