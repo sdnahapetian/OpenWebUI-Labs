@@ -8,12 +8,19 @@
 		chatId,
 		config,
 		mobile,
+		models as _models,
 		settings,
 		showControls,
 		showSidebar,
 		temporaryChatEnabled,
 		user
 	} from '$lib/stores';
+
+	$: activeModelName = (() => {
+		const id = chat?.chat?.models?.[0];
+		if (!id) return null;
+		return $_models?.find((m) => m.id === id)?.name ?? id;
+	})();
 
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -118,9 +125,11 @@
 					{#if chat?.id}
 						<div class="flex max-w-full min-w-0 items-center gap-2 mr-2">
 							<div
-								class="min-w-0 truncate py-1 text-left text-[0.9375rem] font-normal text-gray-700 dark:text-gray-300"
+								class="min-w-0 truncate py-1 px-3 text-left text-[0.9375rem]"
+								style="background: var(--bl-sage); border: 1px solid var(--bl-sage-border); border-radius: 999px; color: var(--bl-sage-text); font-family: var(--bl-font-body); font-size: 14px; display: flex; align-items: center; gap: 6px;"
 							>
-								{title || chat?.chat?.title || $i18n.t('New Chat')}
+								<span>🫙</span>
+								<span class="truncate">{title || chat?.chat?.title || $i18n.t('New Chat')}</span>
 							</div>
 
 							{#if shareEnabled && chat && (chat.id || $temporaryChatEnabled)}
@@ -162,6 +171,20 @@
 				</div>
 
 				<div class="lg:mr-1 flex flex-none items-center gap-2 self-center">
+					{#if activeModelName && chat?.id}
+						<div style="font-family: var(--bl-font-body); font-size: 13px; color: var(--bl-muted); white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+							Talking to {activeModelName}
+							<svg viewBox="0 0 40 40" style="width: 20px; height: 20px; flex-shrink: 0;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+								<ellipse cx="20" cy="23" rx="13" ry="14" fill="#c0392b"/>
+								<circle cx="20" cy="9" r="7" fill="#201e1d"/>
+								<rect x="19" y="10" width="2" height="26" fill="#201e1d"/>
+								<circle cx="13" cy="19" r="2.6" fill="#201e1d"/>
+								<circle cx="27" cy="19" r="2.6" fill="#201e1d"/>
+								<circle cx="14" cy="28" r="2.2" fill="#201e1d"/>
+								<circle cx="26" cy="28" r="2.2" fill="#201e1d"/>
+							</svg>
+						</div>
+					{/if}
 					<!-- <div class="md:hidden flex self-center w-[0.0625rem] h-5 mx-2 bg-gray-300 dark:bg-stone-700" /> -->
 
 					{#if $user?.role === 'user' ? ($user?.permissions?.chat?.temporary ?? true) && !($user?.permissions?.chat?.temporary_enforced ?? false) : true}
