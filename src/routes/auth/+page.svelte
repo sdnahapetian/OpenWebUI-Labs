@@ -221,8 +221,11 @@
 	}}
 />
 
-<div class="w-full h-screen max-h-[100dvh] text-white relative" id="auth-page">
-	<div class="w-full h-full absolute top-0 left-0 bg-white dark:bg-black"></div>
+<div class="w-full h-screen max-h-[100dvh] relative" id="auth-page" style="color: var(--bl-text);">
+	<div
+		class="w-full h-full absolute top-0 left-0"
+		style="background: var(--bl-bg); background-image: repeating-linear-gradient(0deg, rgba(32,30,29,0.05) 0 1px, transparent 1px 30px), repeating-linear-gradient(90deg, rgba(32,30,29,0.05) 0 1px, transparent 1px 30px);"
+	></div>
 
 	<div class="w-full absolute top-0 left-0 right-0 h-8 drag-region" />
 
@@ -248,7 +251,33 @@
 					</div>
 				{:else}
 					<div class="my-auto flex flex-col justify-center items-center">
-						<div id="auth-login-card" class=" sm:max-w-md my-auto pb-10 w-full dark:text-gray-100">
+						<!-- Bug Lab branding -->
+						<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+							<svg
+								viewBox="0 0 40 40"
+								style="width: 42px; height: 42px; display: block;"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<ellipse cx="20" cy="23" rx="13" ry="14" fill="#c0392b" />
+								<circle cx="20" cy="9" r="7" fill="#201e1d" />
+								<rect x="19" y="10" width="2" height="26" fill="#201e1d" />
+								<circle cx="13" cy="19" r="2.6" fill="#201e1d" />
+								<circle cx="27" cy="19" r="2.6" fill="#201e1d" />
+								<circle cx="14" cy="28" r="2.2" fill="#201e1d" />
+								<circle cx="26" cy="28" r="2.2" fill="#201e1d" />
+							</svg>
+							<span
+								style="font-family: var(--bl-font-heading); font-size: 36px; line-height: 1; color: var(--bl-text); letter-spacing: -0.015em;"
+								>Bug Lab</span
+							>
+						</div>
+
+						<div
+							id="auth-login-card"
+							class="sm:max-w-md my-auto pb-0 w-full"
+							style="background: var(--bl-card); border: 1px solid var(--bl-divider); border-radius: 28px; box-shadow: 0 12px 32px rgba(46,43,37,0.22); padding: 36px 40px 40px; color: var(--bl-text);"
+						>
 							{#if $config?.metadata?.auth_logo_position === 'center'}
 								<div class="flex justify-center mb-6">
 									<!-- LICENSE covers this Open WebUI sign-in logo.
@@ -271,7 +300,10 @@
 								}}
 							>
 								<div class="mb-1">
-									<div class=" text-2xl font-normal">
+									<div
+										class="text-2xl font-normal"
+										style="font-family: var(--bl-font-heading); color: var(--bl-text);"
+									>
 										{#if $config?.onboarding ?? false}
 											{$i18n.t(`Get started with {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
 										{:else if mode === 'ldap'}
@@ -389,7 +421,7 @@
 									{#if $config?.features.enable_login_form || $config?.features.enable_ldap || form}
 										{#if mode === 'ldap'}
 											<button
-												class="bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5 disabled:opacity-50 flex justify-center"
+												class="transition w-full rounded-full font-normal text-sm py-2.5 disabled:opacity-50 flex justify-center" style="background: var(--bl-accent); color: var(--bl-card); font-family: var(--bl-font-heading);"
 												type="submit"
 												disabled={submitting}
 											>
@@ -403,7 +435,7 @@
 											</button>
 										{:else}
 											<button
-												class="bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5 disabled:opacity-50 flex justify-center"
+												class="transition w-full rounded-full font-normal text-sm py-2.5 disabled:opacity-50 flex justify-center" style="background: var(--bl-accent); color: var(--bl-card); font-family: var(--bl-font-heading);"
 												type="submit"
 												disabled={submitting}
 											>
@@ -463,7 +495,7 @@
 								<div class="flex flex-col space-y-2">
 									{#if $config?.oauth?.providers?.google}
 										<button
-											class="flex justify-center items-center bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5"
+											class="flex justify-center items-center transition w-full rounded-full font-normal text-sm py-2.5" style="background: var(--bl-surface); border: 1px solid var(--bl-divider); color: var(--bl-text);"
 											on:click={() => {
 												window.location.href = `${WEBUI_BASE_URL}/oauth/google/login`;
 											}}
@@ -493,7 +525,7 @@
 									{/if}
 									{#if $config?.oauth?.providers?.microsoft}
 										<button
-											class="flex justify-center items-center bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5"
+											class="flex justify-center items-center transition w-full rounded-full font-normal text-sm py-2.5" style="background: var(--bl-surface); border: 1px solid var(--bl-divider); color: var(--bl-text);"
 											on:click={() => {
 												window.location.href = `${WEBUI_BASE_URL}/oauth/microsoft/login`;
 											}}
@@ -524,7 +556,7 @@
 									{/if}
 									{#if $config?.oauth?.providers?.github}
 										<button
-											class="flex justify-center items-center bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5"
+											class="flex justify-center items-center transition w-full rounded-full font-normal text-sm py-2.5" style="background: var(--bl-surface); border: 1px solid var(--bl-divider); color: var(--bl-text);"
 											on:click={() => {
 												window.location.href = `${WEBUI_BASE_URL}/oauth/github/login`;
 											}}
@@ -545,7 +577,7 @@
 									{/if}
 									{#if $config?.oauth?.providers?.oidc}
 										<button
-											class="flex justify-center items-center bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5"
+											class="flex justify-center items-center transition w-full rounded-full font-normal text-sm py-2.5" style="background: var(--bl-surface); border: 1px solid var(--bl-divider); color: var(--bl-text);"
 											on:click={() => {
 												window.location.href = `${WEBUI_BASE_URL}/oauth/oidc/login`;
 											}}
@@ -575,7 +607,7 @@
 									{/if}
 									{#if $config?.oauth?.providers?.feishu}
 										<button
-											class="flex justify-center items-center bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-normal text-sm py-2.5"
+											class="flex justify-center items-center transition w-full rounded-full font-normal text-sm py-2.5" style="background: var(--bl-surface); border: 1px solid var(--bl-divider); color: var(--bl-text);"
 											on:click={() => {
 												window.location.href = `${WEBUI_BASE_URL}/oauth/feishu/login`;
 											}}
@@ -619,22 +651,7 @@
 		</div>
 
 		{#if !$config?.metadata?.auth_logo_position}
-			<div class="fixed m-10 z-50">
-				<div class="flex space-x-2">
-					<div class=" self-center">
-						<!-- LICENSE covers this Open WebUI sign-in logo.
-						Do not alter, remove, obscure, or replace it except as LICENSE permits:
-						https://docs.openwebui.com/license. -->
-						<img
-							id="logo"
-							crossorigin="anonymous"
-							src="{WEBUI_BASE_URL}/static/favicon.png"
-							class=" w-6 rounded-full"
-							alt=""
-						/>
-					</div>
-				</div>
-			</div>
+			<!-- Bug Lab: branding shown above the card; corner logo suppressed -->
 		{/if}
 	{/if}
 </div>

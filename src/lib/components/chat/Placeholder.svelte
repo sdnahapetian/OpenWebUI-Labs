@@ -123,107 +123,48 @@
 					}}
 				/>
 			{:else}
-				<div class="flex flex-row justify-center gap-2.5 @sm:gap-3 w-fit px-5 max-w-xl">
-					<div class="flex shrink-0 justify-center">
-						<div class="flex -space-x-4 mb-0.5" in:fade={{ duration: 100 }}>
-							{#each models as model, modelIdx}
-								<Tooltip
-									content={(models[modelIdx]?.info?.meta?.tags ?? [])
-										.map((tag) => tag.name.toUpperCase())
-										.join(', ')}
-									placement="top"
-								>
-									<button
-										aria-hidden={models.length <= 1}
-										aria-label={$i18n.t('Get information on {{name}} in the UI', {
-											name: models[modelIdx]?.name
-										})}
-										on:click={() => {
-											selectedModelIdx = modelIdx;
-										}}
-									>
-										<img
-											src={`${WEBUI_API_BASE_URL}/models/model/profile/image?id=${model?.id}&lang=${$i18n.language}`}
-											class=" size-9 @sm:size-10 rounded-2xl"
-											aria-hidden="true"
-											draggable="false"
-											on:error={(e) => {
-												// LICENSE covers this Open WebUI fallback logo.
-												// Do not alter, remove, obscure, or replace it except as LICENSE permits:
-												// https://docs.openwebui.com/license.
-												e.currentTarget.src = '/favicon.png';
-											}}
-										/>
-									</button>
-								</Tooltip>
-							{/each}
-						</div>
-					</div>
-
-					<div
-						class=" text-2xl @sm:text-2xl line-clamp-1 flex items-center"
-						in:fade={{ duration: 100 }}
+				<!-- Bug Lab greeting card -->
+				<div
+					style="display: flex; gap: 14px; align-items: flex-start; text-align: left; max-width: 640px; width: 100%;"
+					in:fade={{ duration: 100 }}
+				>
+					<svg
+						viewBox="0 0 40 40"
+						style="width: 44px; height: 44px; flex-shrink: 0; display: block;"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
 					>
-						{#if models[selectedModelIdx]?.name}
-							<Tooltip
-								content={models[selectedModelIdx]?.name}
-								placement="top"
-								className=" flex items-center "
+						<ellipse cx="20" cy="23" rx="13" ry="14" fill="#c0392b" />
+						<circle cx="20" cy="9" r="7" fill="#201e1d" />
+						<rect x="19" y="10" width="2" height="26" fill="#201e1d" />
+						<circle cx="13" cy="19" r="2.6" fill="#201e1d" />
+						<circle cx="27" cy="19" r="2.6" fill="#201e1d" />
+						<circle cx="14" cy="28" r="2.2" fill="#201e1d" />
+						<circle cx="26" cy="28" r="2.2" fill="#201e1d" />
+					</svg>
+					<div
+						style="background: var(--bl-card); border: 1px solid var(--bl-divider); border-radius: 28px; padding: 20px 24px; box-shadow: 0 3px 10px rgba(46,43,37,0.16); flex: 1;"
+					>
+						<h2
+							style="font-family: var(--bl-font-heading); font-size: 26px; line-height: 1.12; margin: 0 0 6px; color: var(--bl-text); letter-spacing: -0.015em;"
+						>
+							Hi {$user?.name}! I'm {models[selectedModelIdx]?.name || 'Dot'}.
+						</h2>
+						<p style="font-size: 16px; margin: 0 0 14px; color: var(--bl-muted);">
+							Ask me anything and I'll help you find out.
+						</p>
+						<div
+							style="background: var(--bl-sage); border: 1px solid var(--bl-sage-border); border-radius: 14px; padding: 12px 16px;"
+						>
+							<div
+								style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bl-sage-text); margin-bottom: 4px;"
 							>
-								<span class="line-clamp-1">
-									{models[selectedModelIdx]?.name}
-								</span>
-							</Tooltip>
-						{:else}
-							{$i18n.t('Hello, {{name}}', { name: $user?.name })}
-						{/if}
-					</div>
-				</div>
-
-				<div class="flex mt-1 mb-2">
-					<div in:fade={{ duration: 100, delay: 50 }}>
-						{#if models[selectedModelIdx]?.info?.meta?.description ?? null}
-							<Tooltip
-								className=" w-fit"
-								content={DOMPurify.sanitize(
-									marked.parse(
-										sanitizeResponseContent(
-											models[selectedModelIdx]?.info?.meta?.description ?? ''
-										).replaceAll('\n', '<br>')
-									)
-								)}
-								placement="top"
-							>
-								<div
-									class="mt-0.5 px-2 text-sm font-normal text-gray-500 dark:text-gray-400 line-clamp-2 max-w-xl markdown"
-								>
-									{@html DOMPurify.sanitize(
-										marked.parse(
-											sanitizeResponseContent(
-												models[selectedModelIdx]?.info?.meta?.description ?? ''
-											).replaceAll('\n', '<br>')
-										)
-									)}
-								</div>
-							</Tooltip>
-
-							{#if models[selectedModelIdx]?.info?.meta?.user}
-								<div class="mt-0.5 text-sm font-normal text-gray-400 dark:text-gray-500">
-									By
-									{#if models[selectedModelIdx]?.info?.meta?.user.community}
-										<a
-											href="https://openwebui.com/m/{models[selectedModelIdx]?.info?.meta?.user
-												.username}"
-											>{models[selectedModelIdx]?.info?.meta?.user.name
-												? models[selectedModelIdx]?.info?.meta?.user.name
-												: `@${models[selectedModelIdx]?.info?.meta?.user.username}`}</a
-										>
-									{:else}
-										{models[selectedModelIdx]?.info?.meta?.user.name}
-									{/if}
-								</div>
-							{/if}
-						{/if}
+								Bug fact of the day
+							</div>
+							<p style="font-size: 15px; margin: 0; color: var(--bl-text);">
+								A ladybird can eat 5,000 aphids in its life. Farmers let them loose on purpose.
+							</p>
+						</div>
 					</div>
 				</div>
 			{/if}

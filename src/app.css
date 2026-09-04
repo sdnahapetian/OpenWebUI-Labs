@@ -1,5 +1,25 @@
 @reference "./tailwind.css";
 
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
+
+/* ── Bug Lab theme tokens ─────────────────────────────────────── */
+:root {
+	--bl-bg: #f5ead8;
+	--bl-surface: #ebddc5;
+	--bl-card: #fffdf7;
+	--bl-text: #201e1d;
+	--bl-muted: #645c50;
+	--bl-divider: rgba(32, 30, 29, 0.16);
+	--bl-accent: #c67139;
+	--bl-accent-hover: #b2622d;
+	--bl-accent-active: #8c491a;
+	--bl-sage: #e1eecc;
+	--bl-sage-border: rgba(86, 99, 63, 0.35);
+	--bl-sage-text: #56633f;
+	--bl-font-heading: 'Caprasimo', system-ui, sans-serif;
+	--bl-font-body: 'Figtree', system-ui, sans-serif;
+}
+
 @font-face {
 	font-family: 'Inter';
 	src: url('/assets/fonts/Inter-Variable.ttf');

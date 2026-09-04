@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Fuse from 'fuse.js';
-	import Bolt from '$lib/components/icons/Bolt.svelte';
 	import { getContext } from 'svelte';
 	import { settings, WEBUI_NAME } from '$lib/stores';
 	import { WEBUI_VERSION } from '$lib/constants';
@@ -22,15 +21,10 @@
 	let fuse;
 	let filteredPrompts = [];
 
-	// Initialize Fuse
 	$: fuse = new Fuse(sortedPrompts, fuseOptions);
 
-	// Update the filteredPrompts if inputValue changes
-	// Only increase version if something wirklich geändert hat
 	$: getFilteredPrompts(inputValue);
 
-	// Helper function to check if arrays are the same
-	// (based on unique IDs oder content)
 	function arraysEqual(a, b) {
 		if (a.length !== b.length) return false;
 		for (let i = 0; i < a.length; i++) {
@@ -50,8 +44,6 @@
 					? fuse.search(inputValue.trim()).map((result) => result.item)
 					: sortedPrompts;
 
-			// Compare with the oldFilteredPrompts
-			// If there's a difference, update array + version
 			if (!arraysEqual(filteredPrompts, newFilteredPrompts)) {
 				filteredPrompts = newFilteredPrompts;
 			}
@@ -64,72 +56,76 @@
 	}
 </script>
 
-<div class="mb-1 flex gap-1 text-xs font-normal items-center text-gray-600 dark:text-gray-400">
-	{#if filteredPrompts.length > 0}
-		<Bolt />
-		{$i18n.t('Suggested')}
-	{:else}
-		<!-- Keine Vorschläge -->
-
-		<div
-			class="flex w-full {$settings?.landingPageMode === 'chat'
-				? ' -mt-1'
-				: 'text-center items-center justify-center'}  self-start text-gray-600 dark:text-gray-400"
-		>
-			<!-- LICENSE covers this Open WebUI footer identifier.
-			Do not alter, remove, obscure, or replace it except as LICENSE permits:
-			https://docs.openwebui.com/license. -->
-			{$WEBUI_NAME} ‧ v{WEBUI_VERSION}
-		</div>
-	{/if}
-</div>
-
-<div class="h-36 w-full">
-	{#if filteredPrompts.length > 0}
-		<div role="list" class="max-h-36 overflow-auto scrollbar-none items-start {className}">
-			{#each filteredPrompts as prompt, idx (prompt.id || `${prompt.content}-${idx}`)}
-				<!-- svelte-ignore a11y-no-interactive-element-to-noninteractive-role -->
-				<button
-					role="listitem"
-					class="waterfall flex flex-col flex-1 shrink-0 w-full justify-between
-				       px-2.5 py-1.5 rounded-lg bg-transparent transition-colors
-				       hover:text-gray-950 dark:hover:text-white group"
-					style="animation-delay: {idx * 45}ms"
-					on:click={() => onSelect({ type: 'prompt', data: prompt.content })}
-				>
-					<div class="flex flex-col text-left leading-snug">
-						{#if prompt.title && prompt.title[0] !== ''}
-							<div
-								class="text-sm font-normal group-hover:text-gray-950 dark:text-gray-300 dark:group-hover:text-white transition line-clamp-1"
-							>
-								{prompt.title[0]}
-							</div>
-							<div
-								class="text-xs text-gray-600 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 font-normal line-clamp-1"
-							>
-								{prompt.title[1]}
-							</div>
-						{:else}
-							<div
-								class="text-sm font-normal group-hover:text-gray-950 dark:text-gray-300 dark:group-hover:text-white transition line-clamp-1"
-							>
-								{prompt.content}
-							</div>
-							<div
-								class="text-xs text-gray-600 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 font-normal line-clamp-1"
-							>
-								{$i18n.t('Prompt')}
-							</div>
-						{/if}
-					</div>
-				</button>
-			{/each}
-		</div>
-	{/if}
-</div>
+{#if filteredPrompts.length === 0}
+	<div
+		class="flex w-full {$settings?.landingPageMode === 'chat'
+			? '-mt-1'
+			: 'text-center items-center justify-center'} self-start text-xs font-normal"
+		style="color: var(--bl-muted);"
+	>
+		<!-- LICENSE covers this Open WebUI footer identifier.
+		Do not alter, remove, obscure, or replace it except as LICENSE permits:
+		https://docs.openwebui.com/license. -->
+		{$WEBUI_NAME} ‧ v{WEBUI_VERSION}
+	</div>
+{:else}
+	<div role="list" class="w-full overflow-auto scrollbar-none {className}" style="gap: 10px;">
+		{#each filteredPrompts as prompt, idx (prompt.id || `${prompt.content}-${idx}`)}
+			<!-- svelte-ignore a11y-no-interactive-element-to-noninteractive-role -->
+			<button
+				role="listitem"
+				class="waterfall"
+				style="
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					min-height: 52px;
+					cursor: pointer;
+					text-align: left;
+					width: 100%;
+					background: var(--bl-surface);
+					border: 1px solid var(--bl-divider);
+					border-radius: 999px;
+					padding: 10px 18px;
+					font-family: var(--bl-font-body);
+					font-size: 15px;
+					color: var(--bl-text);
+					transition: background 120ms, transform 120ms;
+					animation-delay: {idx * 45}ms;
+				"
+				on:mouseenter={(e) => {
+					e.currentTarget.style.background = 'var(--bl-sage)';
+					e.currentTarget.style.transform = 'translateY(-1px)';
+				}}
+				on:mouseleave={(e) => {
+					e.currentTarget.style.background = 'var(--bl-surface)';
+					e.currentTarget.style.transform = '';
+				}}
+				on:click={() => onSelect({ type: 'prompt', data: prompt.content })}
+			>
+				<span
+					style="width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; background: var(--bl-accent);"
+				></span>
+				<div class="flex flex-col text-left leading-snug min-w-0">
+					{#if prompt.title && prompt.title[0] !== ''}
+						<div class="line-clamp-1" style="font-size: 14px;">
+							{prompt.title[0]}
+						</div>
+						<div class="line-clamp-1" style="font-size: 12px; color: var(--bl-muted);">
+							{prompt.title[1]}
+						</div>
+					{:else}
+						<div class="line-clamp-1" style="font-size: 14px;">
+							{prompt.content}
+						</div>
+					{/if}
+				</div>
+			</button>
+		{/each}
+	</div>
+{/if}
 
 <style>
-	/* Waterfall animation for the suggestions */
 	@keyframes fadeInUp {
 		0% {
 			opacity: 0;

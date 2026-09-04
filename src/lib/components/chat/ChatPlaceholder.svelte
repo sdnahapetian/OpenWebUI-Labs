@@ -85,52 +85,46 @@
 			</Tooltip>
 		{/if}
 
-		<div
-			class=" mt-2 mb-4 text-3xl text-gray-800 dark:text-gray-100 text-left flex items-center gap-4"
-		>
-			<div>
-				<div class=" capitalize line-clamp-1" in:fade={{ duration: 200 }}>
-					{#if models[selectedModelIdx]?.name}
-						{models[selectedModelIdx]?.name}
-					{:else}
-						{$i18n.t('Hello, {{name}}', { name: $user?.name })}
-					{/if}
-				</div>
-
-				<div in:fade={{ duration: 200, delay: 200 }}>
-					{#if models[selectedModelIdx]?.info?.meta?.description ?? null}
+		<!-- Bug Lab greeting card -->
+		<div class="mt-2 mb-4 text-left" in:fade={{ duration: 200 }}>
+			<div style="display: flex; gap: 14px; align-items: flex-start;">
+				<svg
+					viewBox="0 0 40 40"
+					style="width: 44px; height: 44px; flex-shrink: 0; display: block;"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<ellipse cx="20" cy="23" rx="13" ry="14" fill="#c0392b" />
+					<circle cx="20" cy="9" r="7" fill="#201e1d" />
+					<rect x="19" y="10" width="2" height="26" fill="#201e1d" />
+					<circle cx="13" cy="19" r="2.6" fill="#201e1d" />
+					<circle cx="27" cy="19" r="2.6" fill="#201e1d" />
+					<circle cx="14" cy="28" r="2.2" fill="#201e1d" />
+					<circle cx="26" cy="28" r="2.2" fill="#201e1d" />
+				</svg>
+				<div
+					style="background: var(--bl-card); border: 1px solid var(--bl-divider); border-radius: 28px; padding: 20px 24px; box-shadow: 0 3px 10px rgba(46,43,37,0.16);"
+				>
+					<h2
+						style="font-family: var(--bl-font-heading); font-size: 28px; line-height: 1.12; margin: 0 0 6px; color: var(--bl-text); letter-spacing: -0.015em;"
+					>
+						Hi {$user?.name}! I'm {models[selectedModelIdx]?.name || 'Dot'}.
+					</h2>
+					<p style="font-size: 17px; margin: 0 0 16px; color: var(--bl-muted);">
+						Ask me anything and I'll help you find out.
+					</p>
+					<div
+						style="background: var(--bl-sage); border: 1px solid var(--bl-sage-border); border-radius: 14px; padding: 14px 16px;"
+					>
 						<div
-							class="mt-0.5 text-base font-normal text-gray-500 dark:text-gray-400 line-clamp-3 markdown"
+							style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bl-sage-text); margin-bottom: 5px;"
 						>
-							{@html DOMPurify.sanitize(
-								marked.parse(
-									sanitizeResponseContent(
-										models[selectedModelIdx]?.info?.meta?.description
-									).replaceAll('\n', '<br>')
-								)
-							)}
+							Bug fact of the day
 						</div>
-						{#if models[selectedModelIdx]?.info?.meta?.user}
-							<div class="mt-0.5 text-sm font-normal text-gray-400 dark:text-gray-500">
-								By
-								{#if models[selectedModelIdx]?.info?.meta?.user.community}
-									<a
-										href="https://openwebui.com/m/{models[selectedModelIdx]?.info?.meta?.user
-											.username}"
-										>{models[selectedModelIdx]?.info?.meta?.user.name
-											? models[selectedModelIdx]?.info?.meta?.user.name
-											: `@${models[selectedModelIdx]?.info?.meta?.user.username}`}</a
-									>
-								{:else}
-									{models[selectedModelIdx]?.info?.meta?.user.name}
-								{/if}
-							</div>
-						{/if}
-					{:else}
-						<div class=" text-gray-400 dark:text-gray-500 line-clamp-1 font-p">
-							{$i18n.t('How can I help you today?')}
-						</div>
-					{/if}
+						<p style="font-size: 16px; margin: 0; color: var(--bl-text);">
+							A ladybird can eat 5,000 aphids in its life. Farmers let them loose on purpose.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
