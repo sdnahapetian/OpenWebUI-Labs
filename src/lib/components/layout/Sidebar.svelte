@@ -1141,7 +1141,8 @@
 				class=" my-auto flex flex-col justify-between h-screen max-h-[100dvh] w-[var(--sidebar-width)] overflow-x-hidden scrollbar-hidden z-50 border-e border-gray-50 dark:border-gray-850/30"
 			>
 				<div
-					class="sidebar px-1 pt-1.5 pb-1 flex justify-between space-x-1 text-gray-600 dark:text-gray-400 sticky top-0 z-10 -mb-2"
+					class="sidebar px-1 pt-1.5 pb-1 flex justify-between space-x-1 sticky top-0 z-10 -mb-2"
+					style="color: var(--bl-text);"
 				>
 					<a
 						class="flex items-center rounded-xl size-8.5 h-full justify-center hover:bg-gray-100 dark:hover:bg-gray-900 transition no-drag-region"
@@ -1166,7 +1167,8 @@
 					https://docs.openwebui.com/license. -->
 						<div
 							id="sidebar-webui-name"
-							class=" self-center font-normal text-gray-700 dark:text-gray-200"
+							class=" self-center font-normal"
+							style="font-family: var(--bl-font-heading); font-size: 18px; color: var(--bl-text);"
 						>
 							{$WEBUI_NAME}
 						</div>
@@ -1208,28 +1210,23 @@
 					}}
 				>
 					<div class="pb-1">
-						<div class="px-1 flex justify-center text-gray-700 dark:text-gray-300">
+						<div class="px-2 pt-1 pb-1">
 							<a
 								id="sidebar-new-chat-button"
-								class="group grow flex items-center space-x-2 rounded-xl px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-900 transition outline-none"
+								style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--bl-accent); color: var(--bl-card); font-family: var(--bl-font-heading); font-size: 15px; border-radius: 12px; padding: 10px 16px; transition: background 120ms; text-decoration: none;"
 								href="/"
 								draggable="false"
 								on:click={newChatHandler}
 								aria-label={$i18n.t('New Chat')}
+								on:mouseenter={(e) => { e.currentTarget.style.background = 'var(--bl-accent-hover)'; }}
+								on:mouseleave={(e) => { e.currentTarget.style.background = 'var(--bl-accent)'; }}
 							>
-								<div class="self-center flex size-4 shrink-0 items-center justify-center">
-									<EditPencilIcon className=" size-4" strokeWidth="1.5" />
-								</div>
-
-								<div class="flex flex-1 self-center translate-y-[0.5px]">
-									<div class=" self-center text-[0.8125rem] leading-5">{$i18n.t('New Chat')}</div>
-								</div>
-
-								<HotkeyHint name="newChat" className=" hover-reveal " />
+								<span style="font-size: 18px; line-height: 1; margin-top: -1px;">+</span>
+								{$i18n.t('New Chat')}
 							</a>
 						</div>
 
-						<div class="px-1 flex justify-center text-gray-700 dark:text-gray-300">
+						<div class="px-1 flex justify-center" style="color: var(--bl-text);">
 							<button
 								id="sidebar-search-button"
 								class="group grow flex items-center space-x-2 rounded-xl px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-900 transition outline-none"

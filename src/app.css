@@ -20,6 +20,48 @@
 	--bl-font-body: 'Figtree', system-ui, sans-serif;
 }
 
+/* ── Bug Lab: sidebar overrides ───────────────────────────────── */
+#sidebar {
+	background-color: var(--bl-bg) !important;
+	color: var(--bl-text) !important;
+}
+
+#sidebar #sidebar-webui-name {
+	font-family: var(--bl-font-heading);
+	font-size: 17px;
+	color: var(--bl-text);
+}
+
+.sidebar-bg-gradient-to-b {
+	background-image: linear-gradient(to bottom, var(--bl-bg) 50%, transparent) !important;
+}
+
+.sidebar-bg-gradient-to-t {
+	background-image: linear-gradient(to top, var(--bl-bg) 50%, transparent) !important;
+}
+
+#sidebar .hover\:bg-gray-100:hover,
+#sidebar .dark\:hover\:bg-gray-900:hover {
+	background-color: var(--bl-surface) !important;
+}
+
+#sidebar .bg-black\/\[0\.035\] {
+	background-color: var(--bl-surface) !important;
+}
+
+#sidebar .w-full.pl-2\.5.text-xs {
+	font-family: var(--bl-font-body);
+	color: var(--bl-muted) !important;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+#sidebar .border-e {
+	border-color: var(--bl-divider) !important;
+}
+
 @font-face {
 	font-family: 'Inter';
 	src: url('/assets/fonts/Inter-Variable.ttf');
