@@ -2688,19 +2688,25 @@
 													<button
 														id="send-message-button"
 														class="{!(prompt === '' && files.length === 0) || uploadPending
-															? 'bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100 '
-															: 'text-white bg-gray-200 dark:text-gray-900 dark:bg-gray-700 disabled'} transition rounded-full p-[0.3125rem] self-center"
+															? ''
+															: 'disabled'} transition rounded-full self-center"
+														style="{!(prompt === '' && files.length === 0) || uploadPending
+															? 'background: var(--bl-accent);'
+															: 'background: var(--bl-surface); opacity: 0.5;'} color: var(--bl-card); display: flex; align-items: center; gap: 5px; padding: 6px 14px 6px 12px; font-family: var(--bl-font-heading); font-size: 14px; cursor: pointer;"
 														type="submit"
 														disabled={(prompt === '' && files.length === 0) || uploadPending}
+														on:mouseenter={(e) => { if (!(prompt === '' && files.length === 0) || uploadPending) e.currentTarget.style.background = 'var(--bl-accent-hover)'; }}
+														on:mouseleave={(e) => { e.currentTarget.style.background = (prompt === '' && files.length === 0) && !uploadPending ? 'var(--bl-surface)' : 'var(--bl-accent)'; }}
 													>
 														{#if uploadPending}
-															<Spinner className="size-5" />
+															<Spinner className="size-4" />
 														{:else}
+															Ask
 															<svg
 																xmlns="http://www.w3.org/2000/svg"
 																viewBox="0 0 16 16"
 																fill="currentColor"
-																class="size-5"
+																class="size-4"
 															>
 																<path
 																	fill-rule="evenodd"

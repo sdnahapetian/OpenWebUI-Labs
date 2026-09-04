@@ -1411,7 +1411,7 @@
 
 					<SidebarSection
 						id="sidebar-chats"
-						name={$i18n.t('Chats')}
+						name={$i18n.t('My Jars')}
 						on:change={async (e) => {
 							selectedFolder.set(null);
 						}}
