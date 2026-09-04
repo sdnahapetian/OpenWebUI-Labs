@@ -1222,7 +1222,7 @@
 								on:mouseleave={(e) => { e.currentTarget.style.background = 'var(--bl-accent)'; }}
 							>
 								<span style="font-size: 18px; line-height: 1; margin-top: -1px;">+</span>
-								{$i18n.t('New Chat')}
+								New Bug
 							</a>
 						</div>
 
@@ -1713,27 +1713,14 @@
 									class=" flex items-center rounded-xl py-1.5 px-1.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
 									aria-label={$i18n.t('User menu')}
 								>
-									<div class=" self-center mr-3 relative flex-shrink-0">
-										<img
-											src={`${WEBUI_API_BASE_URL}/users/${$user?.id}/profile/image`}
-											class="size-5.5 object-cover rounded-full"
-											alt={$i18n.t('Open User Profile Menu')}
-											aria-label={$i18n.t('Open User Profile Menu')}
-										/>
-
-										{#if $config?.features?.enable_user_status}
-											<div class="absolute -bottom-0.5 -right-0.5">
-												<span class="relative flex size-2.5">
-													<span
-														class="relative inline-flex size-2.5 rounded-full {true
-															? 'bg-green-500'
-															: 'bg-gray-300 dark:bg-gray-700'} border-2 border-white dark:border-gray-900"
-													></span>
-												</span>
-											</div>
-										{/if}
+									<div class="self-center mr-3 relative flex-shrink-0">
+										<div
+											style="width: 28px; height: 28px; border-radius: 999px; background: var(--bl-card); border: 2px solid var(--bl-divider); display: flex; align-items: center; justify-content: center; font-family: var(--bl-font-heading); font-size: 14px; color: var(--bl-accent); text-transform: uppercase;"
+										>
+											{($user?.name ?? '?')[0]}
+										</div>
 									</div>
-									<div class=" self-center font-normal truncate">{$user?.name}</div>
+									<div class="self-center font-normal truncate" style="font-family: var(--bl-font-body); color: var(--bl-text);">{$user?.name}</div>
 								</button>
 							</UserMenu>
 						{/if}
