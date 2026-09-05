@@ -1747,7 +1747,7 @@ def _load_lab_theme_config():
     try:
         if path:
             with open(path, encoding='utf-8') as config_file:
-                loaded = json.load(config_file)
+                loaded = JSONCodec.loads(config_file.read())
         elif value:
             loaded = JSONCodec.loads(value)
         else:

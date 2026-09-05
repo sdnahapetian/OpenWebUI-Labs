@@ -1,0 +1,14 @@
+services:
+  open-webui-labs:
+    image: ghcr.io/sdnahapetian/openwebui-labs:codex-lab-profiles
+    container_name: open-webui-labs
+    ports:
+      - '8084:8080'
+    environment:
+      ENABLE_OLLAMA_API: 'false'
+      LAB_CONFIG_FILE: /app/backend/labs.json
+      WEBUI_NAME: OpenWebUI Labs
+    volumes:
+      - ./data:/app/backend/data
+      - ./labs.json:/app/backend/labs.json:ro
+    restart: unless-stopped
