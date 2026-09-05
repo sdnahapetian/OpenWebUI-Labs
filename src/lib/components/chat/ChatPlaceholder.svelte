@@ -135,12 +135,12 @@
 				suggestionPrompts={atSelectedModel?.info?.meta?.suggestion_prompts ??
 					models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
 					$config?.default_prompt_suggestions ?? [
-						{ title: ['Why do fireflies glow?', 'in the dark'], content: 'Why do fireflies glow in the dark? Explain it simply.' },
-						{ title: ['How do spiders make webs?', 'step by step'], content: 'How do spiders make their webs? Explain it step by step.' },
-						{ title: ['Do bugs sleep?', 'like we do?'], content: 'Do bugs sleep? How is it different from how people sleep?' },
-						{ title: ["What's the strongest bug?", 'pound for pound'], content: "What is the strongest bug in the world compared to its size?" },
-						{ title: ['Why do bees make honey?', 'and how?'], content: 'Why do bees make honey and how do they do it?' },
-						{ title: ['How do ants talk?', 'to each other'], content: 'How do ants talk to each other? Do they use sounds or smells?' }
+{ title: ['Why do fireflies', 'glow at night?'], content: 'Fireflies light up the dark — but why? What is that glow for, and how do they make it?' },
+						{ title: ['How do spiders', 'spin their webs?'], content: 'Walk me through how a spider builds a web, step by step — where does the silk come from?' },
+						{ title: ['Do bugs sleep', 'or just rest?'], content: 'Do bugs actually sleep like we do? What is different about how insects rest?' },
+						{ title: ["Who's the strongest bug", 'pound for pound?'], content: 'Which bug is the strongest relative to its size, and what makes it so tough?' },
+						{ title: ['Why do bees', 'make honey?'], content: 'Why do bees make honey, and how do they do it? Walk me through the whole process.' },
+						{ title: ['How do ants', 'talk to each other?'], content: 'Do ants communicate with sounds, smells, or something else? How does a colony stay in sync?' }
 					]}
 				{onSelect}
 			/>
