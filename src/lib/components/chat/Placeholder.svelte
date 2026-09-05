@@ -27,6 +27,8 @@
 	import MessageInput from './MessageInput.svelte';
 	import FolderPlaceholder from './Placeholder/FolderPlaceholder.svelte';
 	import FolderTitle from './Placeholder/FolderTitle.svelte';
+	import LabWelcome from './LabWelcome.svelte';
+	import { getActiveLabProfile } from '$lib/utils/labTheme';
 
 	const i18n = getContext('i18n');
 
@@ -86,6 +88,7 @@
 	}
 
 	$: models = selectedModels.map((id) => $_models.find((m) => m.id === id));
+	$: labProfile = getActiveLabProfile($config, $user);
 
 	// True when viewing a shared folder the current user doesn't own AND lacks write access
 	$: folderReadOnly =
@@ -122,6 +125,8 @@
 						selectedFolder.set(null);
 					}}
 				/>
+			{:else if labProfile}
+				<LabWelcome modelName={models[selectedModelIdx]?.name} />
 			{:else}
 				<div class="flex flex-row justify-center gap-2.5 @sm:gap-3 w-fit px-5 max-w-xl">
 					<div class="flex shrink-0 justify-center">
@@ -252,7 +257,7 @@
 						{onToolApprovalModeChange}
 						{stopResponse}
 						{createMessagePair}
-						placeholder={$i18n.t('How can I help you today?')}
+						placeholder={labProfile?.input_placeholder ?? $i18n.t('How can I help you today?')}
 						{onChange}
 						{onUpload}
 						{onUpdate}
@@ -280,8 +285,10 @@
 		<div class="mx-auto max-w-2xl mt-2" in:fade={{ duration: 200, delay: 200 }}>
 			<div class="mx-5">
 				<Suggestions
+					className={`grid ${labProfile?.suggestion_columns === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}
 					suggestionPrompts={atSelectedModel?.info?.meta?.suggestion_prompts ??
 						models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
+						labProfile?.suggestions ??
 						$config?.default_prompt_suggestions ??
 						[]}
 					inputValue={prompt}

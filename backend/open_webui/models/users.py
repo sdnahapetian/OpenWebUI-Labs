@@ -38,6 +38,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class UserSettings(BaseModel):
     ui: dict | None = {}
+    lab_flavor: str | None = None
     model_config = ConfigDict(extra='allow')
     pass
 
@@ -264,6 +265,7 @@ class UserUpdateForm(BaseModel):
     email: str | None = None
     profile_image_url: str | None = None
     password: str | None = None
+    lab_flavor: str | None = None
 
     @field_validator('profile_image_url', mode='before')
     @classmethod

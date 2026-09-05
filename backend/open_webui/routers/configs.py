@@ -75,6 +75,7 @@ SUBAGENTS_CONFIG_KEYS = {
     'SUBAGENTS_MAX_OUTPUT': 'subagents.max_output',
     'SUBAGENTS_SYSTEM_PROMPT': 'subagents.system_prompt',
 }
+LAB_THEME_CONFIG_KEYS = {'LAB_THEME': 'ui.lab_theme'}
 
 
 async def get_config_values(key_map: dict[str, str]) -> dict:
@@ -804,6 +805,32 @@ async def set_subagents_config(
 class PromptSuggestion(BaseModel):
     title: list[str]
     content: str
+
+
+class LabThemeConfigForm(BaseModel):
+    LAB_THEME: dict
+
+
+@router.get('/lab_theme', response_model=LabThemeConfigForm)
+async def get_lab_theme_config(user=Depends(get_admin_user)):
+    return await get_config_values(LAB_THEME_CONFIG_KEYS)
+
+
+@router.post('/lab_theme', response_model=LabThemeConfigForm)
+async def set_lab_theme_config(
+    request: Request, form_data: LabThemeConfigForm, user=Depends(get_admin_user)
+):
+    await Config.upsert({'ui.lab_theme': form_data.LAB_THEME})
+    values = await get_config_values(LAB_THEME_CONFIG_KEYS)
+    await publish_event(
+        request,
+        EVENTS.CONFIG_UPDATED,
+        actor=user,
+        subject_id='ui.lab_theme',
+        subject_type='config',
+        data={'enabled': bool(form_data.LAB_THEME.get('enabled'))},
+    )
+    return values
 
 
 class SetDefaultSuggestionsForm(BaseModel):

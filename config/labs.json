@@ -1,0 +1,91 @@
+{
+	"enabled": true,
+	"default_flavor": "chef",
+	"allow_user_selection": false,
+	"profiles": {
+		"chef": {
+			"name": "Chef Lab",
+			"mascot_name": "Basil",
+			"mascot_url": "/static/labs/chef.svg",
+			"login_heading": "Welcome to Chef Lab",
+			"login_subtitle": "A curious kitchen for learning, experimenting, and creating.",
+			"greeting": "Hi {{user}}! I'm {{model}}.",
+			"subtitle": "What should we cook today?",
+			"daily_label": "Kitchen tip of the day",
+			"daily_message": "Salt your pasta water generously—the noodles should be seasoned from the inside.",
+			"input_placeholder": "Ask a cooking question…",
+			"new_chat_label": "New Recipe",
+			"chat_list_label": "My Recipe Cards",
+			"suggestion_columns": 2,
+			"font_heading": "'Gaegu', system-ui, sans-serif",
+			"font_body": "'Figtree', system-ui, sans-serif",
+			"font_stylesheet_url": "https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Figtree:wght@400;600;700&display=swap",
+			"colors": {
+				"background": "#f5ead8",
+				"surface": "#ebddc5",
+				"card": "#fffdf7",
+				"text": "#201e1d",
+				"muted": "#645c50",
+				"divider": "rgba(32, 30, 29, 0.16)",
+				"accent": "#9c3b56",
+				"accent_hover": "#7f2d44",
+				"accent_active": "#5e1f31",
+				"highlight": "#e4ead0",
+				"highlight_border": "rgba(32, 30, 29, 0.12)",
+				"highlight_text": "#3f4a2a"
+			},
+			"suggestions": [
+				{
+					"title": ["Make pasta", "from scratch"],
+					"content": "Teach me how to make pasta from scratch, step by step."
+				},
+				{
+					"title": ["Why does bread rise?", "the simple science"],
+					"content": "Explain simply why bread dough rises."
+				}
+			]
+		},
+		"bug": {
+			"name": "Bug Lab",
+			"mascot_name": "Dot",
+			"mascot_url": "/static/labs/bug.svg",
+			"login_heading": "Welcome to Bug Lab",
+			"login_subtitle": "A place for small creatures and big questions.",
+			"greeting": "Hi {{user}}! I'm {{model}}.",
+			"subtitle": "Ask me anything and we'll investigate together.",
+			"daily_label": "Bug fact of the day",
+			"daily_message": "A ladybird can eat thousands of aphids during its lifetime.",
+			"input_placeholder": "Ask a bug question…",
+			"new_chat_label": "New Bug",
+			"chat_list_label": "My Jars",
+			"suggestion_columns": 2,
+			"font_heading": "'Caprasimo', system-ui, sans-serif",
+			"font_body": "'Figtree', system-ui, sans-serif",
+			"font_stylesheet_url": "https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700&display=swap",
+			"colors": {
+				"background": "#f5ead8",
+				"surface": "#ebddc5",
+				"card": "#fffdf7",
+				"text": "#201e1d",
+				"muted": "#645c50",
+				"divider": "rgba(32, 30, 29, 0.16)",
+				"accent": "#c67139",
+				"accent_hover": "#b2622d",
+				"accent_active": "#8c491a",
+				"highlight": "#e1eecc",
+				"highlight_border": "rgba(86, 99, 63, 0.35)",
+				"highlight_text": "#56633f"
+			},
+			"suggestions": [
+				{
+					"title": ["Why do fireflies glow?", "in the dark"],
+					"content": "Why do fireflies glow in the dark? Explain it simply."
+				},
+				{
+					"title": ["How do spiders", "make webs?"],
+					"content": "How do spiders make their webs? Explain it step by step."
+				}
+			]
+		}
+	}
+}

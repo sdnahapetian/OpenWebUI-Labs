@@ -2260,6 +2260,7 @@ async def get_app_config(request: Request):
         'ui.default_models',
         'ui.default_pinned_models',
         'ui.default_interface_settings',
+        'ui.lab_theme',
         'ui.prompt_suggestions',
         'code_execution.engine',
         'code_interpreter.engine',
@@ -2283,6 +2284,7 @@ async def get_app_config(request: Request):
         'name': app.state.WEBUI_NAME,
         'version': VERSION,
         'default_locale': str(DEFAULT_LOCALE),
+        'lab_theme': config.get('ui.lab_theme') or {},
         'oauth': {
             # Hide providers (and thus the login buttons / auto-redirect) when OAuth
             # is disabled, without clearing the admin's provider configuration.

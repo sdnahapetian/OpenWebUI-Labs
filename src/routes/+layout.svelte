@@ -71,6 +71,7 @@
 		removeAllDetails
 	} from '$lib/utils';
 	import { setTextScale } from '$lib/utils/text-scale';
+	import { applyLabTheme } from '$lib/utils/labTheme';
 
 	import NotificationToast from '$lib/components/NotificationToast.svelte';
 	import AppSidebar from '$lib/components/app/AppSidebar.svelte';
@@ -80,6 +81,8 @@
 	import { getUserSettings } from '$lib/apis/users';
 	import dayjs from 'dayjs';
 	import { getChannels } from '$lib/apis/channels';
+
+	$: applyLabTheme($config, $user, $page.url.searchParams.get('lab'));
 
 	const unregisterServiceWorkers = async () => {
 		if ('serviceWorker' in navigator) {

@@ -511,6 +511,18 @@ async def update_user_settings_by_session_user(
         )
 
     updated_user_settings = form_data.model_dump(exclude_unset=True)
+    if 'lab_flavor' in updated_user_settings:
+        lab_theme = await Config.get('ui.lab_theme') or {}
+        profiles = lab_theme.get('profiles') or {}
+        lab_flavor = updated_user_settings.get('lab_flavor')
+        if user.role != 'admin' and not lab_theme.get('allow_user_selection'):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=ERROR_MESSAGES.ACTION_PROHIBITED,
+            )
+        if lab_flavor and lab_flavor not in profiles:
+            raise HTTPException(status_code=400, detail='Unknown lab flavor')
+
     ui_settings = updated_user_settings.get('ui')
     if (
         user.role != 'admin'
@@ -981,6 +993,19 @@ async def update_user_by_id(
             await Auths.update_email_by_id(user_id, form_data.email.lower(), db=db)
         if form_data.profile_image_url is not None:
             update_data['profile_image_url'] = form_data.profile_image_url
+
+        if 'lab_flavor' in form_data.model_fields_set:
+            lab_theme = await Config.get('ui.lab_theme') or {}
+            profiles = lab_theme.get('profiles') or {}
+            if form_data.lab_flavor and form_data.lab_flavor not in profiles:
+                raise HTTPException(status_code=400, detail='Unknown lab flavor')
+            current_settings = (
+                user.settings.model_dump()
+                if isinstance(user.settings, UserSettings)
+                else dict(user.settings or {})
+            )
+            current_settings['lab_flavor'] = form_data.lab_flavor or None
+            update_data['settings'] = current_settings
 
         if update_data:
             updated_user = await Users.update_user_by_id(

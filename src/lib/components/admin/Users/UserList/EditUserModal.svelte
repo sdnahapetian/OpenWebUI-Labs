@@ -5,6 +5,7 @@
 	import { onMount, getContext } from 'svelte';
 
 	import { goto } from '$app/navigation';
+	import { config } from '$lib/stores';
 
 	import { updateUserById, getUserGroupsById } from '$lib/apis/users';
 
@@ -28,21 +29,23 @@
 
 	const init = () => {
 		if (selectedUser) {
-			_user = selectedUser;
+			_user = { ...selectedUser, lab_flavor: selectedUser.settings?.lab_flavor ?? '' };
 			_user.password = '';
 			loadUserGroups();
 		}
 	};
 
-	let _user = {
+	let _user: any = {
 		profile_image_url: '',
 		role: 'pending',
 		name: '',
 		email: '',
-		password: ''
+		password: '',
+		lab_flavor: ''
 	};
 
 	let userGroups: any[] | null = null;
+	$: labProfiles = Object.entries($config?.lab_theme?.profiles ?? {}) as [string, any][];
 
 	const submitHandler = async () => {
 		const res = await updateUserById(localStorage.token, selectedUser.id, _user).catch((error) => {
@@ -133,6 +136,19 @@
 											</div>
 										</div>
 									{/if}
+
+									<div class="flex flex-col w-full">
+										<div class="mb-1 text-xs text-gray-500">{$i18n.t('Lab Flavor')}</div>
+										<select
+											class="w-full text-sm bg-transparent outline-hidden"
+											bind:value={_user.lab_flavor}
+										>
+											<option value="">{$i18n.t('Instance Default')}</option>
+											{#each labProfiles as [id, profile]}
+												<option value={id}>{profile.name || id}</option>
+											{/each}
+										</select>
+									</div>
 
 									<div class="flex flex-col w-full">
 										<div class=" mb-1 text-xs text-gray-500">{$i18n.t('Role')}</div>

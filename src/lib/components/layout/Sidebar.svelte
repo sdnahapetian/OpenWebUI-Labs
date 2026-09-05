@@ -36,10 +36,12 @@
 		setChatReadAt
 	} from '$lib/stores/chatList';
 	import { onMount, getContext, tick, onDestroy } from 'svelte';
+	import { getActiveLabProfile } from '$lib/utils/labTheme';
 
 	const i18n = getContext('i18n');
 
 	$: canImportChats = $user?.role === 'admin' || ($user?.permissions?.chat?.import ?? true);
+	$: labProfile = getActiveLabProfile($config, $user);
 
 	import {
 		getAllTags,
@@ -992,7 +994,7 @@
 									goto('/');
 									newChatHandler();
 								}}
-								aria-label={$i18n.t('New Chat')}
+								aria-label={labProfile?.new_chat_label ?? $i18n.t('New Chat')}
 							>
 								<div
 									class="self-center flex size-[calc(30px*var(--app-text-scale,1))] items-center justify-center rounded-lg transition group-hover:bg-gray-100 dark:group-hover:bg-gray-900"
@@ -1215,14 +1217,16 @@
 								href="/"
 								draggable="false"
 								on:click={newChatHandler}
-								aria-label={$i18n.t('New Chat')}
+								aria-label={labProfile?.new_chat_label ?? $i18n.t('New Chat')}
 							>
 								<div class="self-center flex size-4 shrink-0 items-center justify-center">
 									<EditPencilIcon className=" size-4" strokeWidth="1.5" />
 								</div>
 
 								<div class="flex flex-1 self-center translate-y-[0.5px]">
-									<div class=" self-center text-[0.8125rem] leading-5">{$i18n.t('New Chat')}</div>
+									<div class="self-center text-[0.8125rem] leading-5">
+										{labProfile?.new_chat_label ?? $i18n.t('New Chat')}
+									</div>
 								</div>
 
 								<HotkeyHint name="newChat" className=" hover-reveal " />
@@ -1414,7 +1418,7 @@
 
 					<SidebarSection
 						id="sidebar-chats"
-						name={$i18n.t('Chats')}
+						name={labProfile?.chat_list_label ?? $i18n.t('Chats')}
 						on:change={async (e) => {
 							selectedFolder.set(null);
 						}}

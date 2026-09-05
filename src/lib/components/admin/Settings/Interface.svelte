@@ -16,6 +16,7 @@
 	import AdminSettingRow from './AdminSettingRow.svelte';
 	import AdminSettingSection from './AdminSettingSection.svelte';
 	import { config as appConfig } from '$lib/stores';
+	import { getLabThemeConfig, setLabThemeConfig } from '$lib/apis/configs';
 
 	const dispatch = createEventDispatcher();
 
@@ -53,6 +54,8 @@
 		ENABLE_TOOL_PERMISSIONS: false
 	};
 	let showTaskParameters = false;
+	let labThemeConfig: Record<string, any> = {};
+	let labThemeJson = '';
 
 	const configuredParams = (params: Record<string, any> = {}) =>
 		Object.fromEntries(
@@ -62,19 +65,32 @@
 		);
 
 	const updateInterfaceHandler = async () => {
+		let parsedLabTheme: Record<string, any>;
+		try {
+			parsedLabTheme = JSON.parse(labThemeJson);
+		} catch {
+			toast.error($i18n.t('Lab configuration must be valid JSON'));
+			return;
+		}
 		const taskConfigPayload = {
 			...taskConfig,
 			TASK_MODEL_PARAMS: configuredParams(taskConfig.TASK_MODEL_PARAMS)
 		};
 
-		[taskConfig, chatConfig] = await Promise.all([
+		const [nextTaskConfig, nextChatConfig, nextLabTheme] = await Promise.all([
 			updateTaskConfig(localStorage.token, taskConfigPayload),
-			updateChatConfig(localStorage.token, chatConfig)
+			updateChatConfig(localStorage.token, chatConfig),
+			setLabThemeConfig(localStorage.token, parsedLabTheme)
 		]);
+		taskConfig = nextTaskConfig;
+		chatConfig = nextChatConfig;
+		labThemeConfig = nextLabTheme.LAB_THEME;
+		labThemeJson = JSON.stringify(labThemeConfig, null, 2);
 		appConfig.update((current) =>
 			current
 				? {
 						...current,
+						lab_theme: labThemeConfig,
 						features: {
 							...current.features,
 							enable_context_compaction: chatConfig.ENABLE_CONTEXT_COMPACTION,
@@ -118,10 +134,15 @@
 
 	const init = async () => {
 		try {
-			[taskConfig, chatConfig] = await Promise.all([
+			const [nextTaskConfig, nextChatConfig, nextLabTheme] = await Promise.all([
 				getTaskConfig(localStorage.token),
-				getChatConfig(localStorage.token)
+				getChatConfig(localStorage.token),
+				getLabThemeConfig(localStorage.token)
 			]);
+			taskConfig = nextTaskConfig;
+			chatConfig = nextChatConfig;
+			labThemeConfig = nextLabTheme.LAB_THEME ?? {};
+			labThemeJson = JSON.stringify(labThemeConfig, null, 2);
 			taskConfig.TASK_MODEL_PARAMS = taskConfig.TASK_MODEL_PARAMS ?? {};
 
 			workspaceModels = await getBaseModels(localStorage.token);
@@ -173,7 +194,22 @@
 		</h2>
 
 		<div class="flex-1 min-h-0 overflow-y-auto scrollbar-hover pr-1.5">
-			<AdminSettingSection title={$i18n.t('Tasks')} first>
+			<AdminSettingSection title={$i18n.t('Lab Profiles')} first>
+				<AdminSettingField
+					label={$i18n.t('Runtime Lab Configuration')}
+					description={$i18n.t(
+						'Define named visual profiles. Changes apply without rebuilding the Docker image.'
+					)}
+				>
+					<textarea
+						class="{textareaClass} min-h-64 font-mono"
+						bind:value={labThemeJson}
+						spellcheck="false"
+					></textarea>
+				</AdminSettingField>
+			</AdminSettingSection>
+
+			<AdminSettingSection title={$i18n.t('Tasks')}>
 				<div>
 					<div class="mb-2">
 						<div class="text-xs text-gray-600 dark:text-gray-400">{$i18n.t('Task Model')}</div>

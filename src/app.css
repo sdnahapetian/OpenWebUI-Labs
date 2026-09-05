@@ -17,6 +17,54 @@
 	--app-text-scale: 1;
 }
 
+html[data-lab-enabled] body,
+html[data-lab-enabled] .app {
+	background-color: var(--lab-background, inherit);
+	color: var(--lab-text, inherit);
+	font-family: var(--lab-font-body, inherit);
+}
+
+html[data-lab-enabled] #sidebar {
+	background-color: var(--lab-background, inherit) !important;
+	color: var(--lab-text, inherit) !important;
+}
+
+html[data-lab-enabled] #sidebar-webui-name,
+html[data-lab-enabled] .lab-heading {
+	font-family: var(--lab-font-heading, inherit);
+}
+
+html[data-lab-enabled] #auth-page {
+	background-color: var(--lab-background, inherit) !important;
+	background-image: var(--lab-login-background-image, none);
+	background-position: center;
+	background-size: cover;
+	color: var(--lab-text, inherit);
+}
+
+html[data-lab-enabled] #auth-login-card,
+html[data-lab-enabled] .lab-card {
+	background: var(--lab-card, transparent);
+	border: 1px solid var(--lab-divider, transparent);
+	border-radius: 1.5rem;
+	box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 12%);
+}
+
+html[data-lab-enabled] .lab-highlight {
+	background: var(--lab-highlight, transparent);
+	border: 1px solid var(--lab-highlight-border, transparent);
+	color: var(--lab-highlight-text, inherit);
+}
+
+html[data-lab-enabled] #sidebar-new-chat-button {
+	background: var(--lab-accent, inherit);
+	color: var(--lab-card, white);
+}
+
+html[data-lab-enabled] #sidebar-new-chat-button:hover {
+	background: var(--lab-accent-hover, var(--lab-accent, inherit));
+}
+
 html {
 	word-break: break-word;
 	/* font-size scales the entire document via the same UI control */

@@ -332,6 +332,7 @@ type Config = {
 	default_models: string;
 	default_pinned_models?: string | null;
 	default_prompt_suggestions: PromptSuggestion[];
+	lab_theme?: Record<string, any>;
 	features: {
 		auth: boolean;
 		auth_trusted_header: boolean;

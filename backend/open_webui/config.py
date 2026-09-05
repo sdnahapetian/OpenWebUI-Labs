@@ -1731,6 +1731,35 @@ except Exception as e:
 
 DEFAULT_INTERFACE_SETTINGS = default_interface_settings if isinstance(default_interface_settings, dict) else {}
 
+# Optional runtime branding/theme configuration. LAB_CONFIG_FILE is useful for
+# bind-mounted deployment config; LAB_CONFIG_JSON is convenient for containers.
+LAB_THEME_DEFAULTS = {
+    'enabled': False,
+    'default_flavor': '',
+    'allow_user_selection': False,
+    'profiles': {},
+}
+
+
+def _load_lab_theme_config():
+    value = os.getenv('LAB_CONFIG_JSON', '')
+    path = os.getenv('LAB_CONFIG_FILE', '')
+    try:
+        if path:
+            with open(path, encoding='utf-8') as config_file:
+                loaded = json.load(config_file)
+        elif value:
+            loaded = JSONCodec.loads(value)
+        else:
+            loaded = {}
+        return {**LAB_THEME_DEFAULTS, **loaded} if isinstance(loaded, dict) else LAB_THEME_DEFAULTS
+    except Exception as e:
+        log.exception(f'Error loading Lab theme configuration: {e}')
+        return LAB_THEME_DEFAULTS
+
+
+LAB_THEME = _load_lab_theme_config()
+
 DEFAULT_USER_ROLE = os.getenv('DEFAULT_USER_ROLE', 'pending')
 
 DEFAULT_GROUP_ID = os.getenv('DEFAULT_GROUP_ID', '')
@@ -3095,6 +3124,7 @@ DEFAULT_CONFIG = {
     'ui.default_models': DEFAULT_MODELS,
     'ui.default_pinned_models': DEFAULT_PINNED_MODELS,
     'ui.default_interface_settings': DEFAULT_INTERFACE_SETTINGS,
+    'ui.lab_theme': LAB_THEME,
     'ui.prompt_suggestions': DEFAULT_PROMPT_SUGGESTIONS,
     'ui.model_order_list': MODEL_ORDER_LIST,
     'models.default_metadata': DEFAULT_MODEL_METADATA,

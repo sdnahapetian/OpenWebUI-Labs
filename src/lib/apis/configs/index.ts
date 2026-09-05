@@ -772,6 +772,24 @@ export const setDefaultPromptSuggestions = async (token: string, promptSuggestio
 	return res;
 };
 
+export const getLabThemeConfig = async (token: string) => {
+	const res = await fetch(`${WEBUI_API_BASE_URL}/configs/lab_theme`, {
+		headers: { Authorization: `Bearer ${token}` }
+	});
+	if (!res.ok) throw await res.json();
+	return res.json();
+};
+
+export const setLabThemeConfig = async (token: string, labTheme: Record<string, any>) => {
+	const res = await fetch(`${WEBUI_API_BASE_URL}/configs/lab_theme`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+		body: JSON.stringify({ LAB_THEME: labTheme })
+	});
+	if (!res.ok) throw await res.json();
+	return res.json();
+};
+
 export const getBanners = async (token: string): Promise<Banner[]> => {
 	let error = null;
 

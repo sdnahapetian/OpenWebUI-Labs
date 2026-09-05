@@ -1,0 +1,6 @@
+services:
+  open-webui:
+    environment:
+      LAB_CONFIG_FILE: /app/backend/data/labs.json
+    volumes:
+      - ./config/labs.json:/app/backend/data/labs.json:ro
